@@ -56,3 +56,17 @@ func Detail(id int) entities.Category {
 
 	return categories
 }
+
+func Update(id int, categories entities.Category) bool {
+	query, err := config.DB.Exec(`UPDATE categories SET name=?, updated_at=? WHERE id=?`, categories.Name, categories.UpdatedAt, id)
+	if err != nil {
+		panic(err)
+	}
+
+	result, err := query.RowsAffected()
+	if err != nil {
+		panic(err)
+	}
+
+	return result > 0
+}
